@@ -2,31 +2,26 @@ graph = {1:[2,3],2:[4,5],3:[2],4:[1]}
 visit = dict.fromkeys(list(range(6)),False)
 
 stack = []
-flag = dict.fromkeys(list(range(6)),False)
-numRecord = dict.fromkeys(list(range(6)),False)
+
+"""下面函数实现了以指定点为起点的（链表形式存储的）有向图的深度遍历
+
+输入：遍历起始点
+输出：起始点对于图中每个点的可达性
+
+"""
+
 def DFS(v):
     global graph
     global visit
-    global stack
-    global flag
+
     if visit[v] == True:
         return True
     visit[v] = True
-    stack.append(v)
+
     if graph.__contains__(v):
         for i in graph[v]:
-            if DFS(i):
-                if stack.__contains__(i):
-                    index = stack.index(i)
-                    for i in range(index, len(stack)):
-                        flag[stack[i]] = True
-                        numRecord[i] = i
-
-                elif numRecord[i] != False:
-                    if stack.__contains__(numRecord[i]):
-                        flag[v] = True
-    stack.pop()
+            DFS(i)
 
 DFS(2)
-for i in flag.items():
+for i in visit.items():
     print(i)
